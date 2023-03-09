@@ -2,18 +2,24 @@ using UnityEngine;
 
 public class ModelData
 {
-    private const int COLLIDER_LAYER_COUNT = 1;
-    private const int SKIN_LAYER_COUNT = 1;
+    public int ColliderLayerCount { get; } = 1;
+    public int SkinLayerCount { get; } = 1;
 
-    private readonly MeshData _colliderMesh;
-    private readonly MeshData _skinMesh;
-    private readonly SkinData _skin;
+    public MeshData ColliderMesh { get; }
+    public MeshData SkinMesh { get; }
+    public SkinData Skin { get; }
 
     public ModelData()
     {
-        _skin = new SkinData();
-        _skinMesh = new MeshData(SKIN_LAYER_COUNT);
-        _colliderMesh = new MeshData(COLLIDER_LAYER_COUNT);
+        Skin = new SkinData();
+        SkinMesh = new MeshData(SkinLayerCount);
+        ColliderMesh = new MeshData(ColliderLayerCount);
+    }
+
+    public ModelData(int colliderLayerCount, int skinLayerCount) : base()
+    {
+        ColliderLayerCount = colliderLayerCount;
+        SkinLayerCount = skinLayerCount;
     }
 
     ~ModelData()
@@ -23,20 +29,32 @@ public class ModelData
 
     public void Clear()
     {
-        _skinMesh.Clear();
-        _colliderMesh.Clear();
-        _skin.Clear();
+        SkinMesh.Clear();
+        ColliderMesh.Clear();
+        Skin.Clear();
     }
 
     public void Add(ModelData objectData, Vector3 shift)
     {
-        _skinMesh.Add(objectData._skinMesh, shift);
-        _colliderMesh.Add(objectData._colliderMesh, shift);
-        _skin.Add(objectData._skin);
+        SkinMesh.Add(objectData.SkinMesh, shift);
+        ColliderMesh.Add(objectData.ColliderMesh, shift);
+        Skin.Add(objectData.Skin);
+    }
+
+    public void Add(MeshData colliderMesh, MeshData skinMesh, SkinData skin, Vector3 shift)
+    {
+        SkinMesh.Add(skinMesh, shift);
+        ColliderMesh.Add(colliderMesh, shift);
+        Skin.Add(skin);
     }
 
     public void Add(ModelData objectData)
     {
         Add(objectData, Vector3.zero);
+    }
+
+    public void Add(MeshData colliderMesh, MeshData skinMesh, SkinData skin)
+    {
+        Add(colliderMesh, skinMesh, skin, Vector3.zero);
     }
 }
