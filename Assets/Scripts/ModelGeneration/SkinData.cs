@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class SkinData
 {
-    private readonly List<Color> _colors;
-    private readonly List<Vector2> _uvs;
+    public List<Color> Colors { get; }
+    public List<Vector2> UVs { get; }
 
     public SkinData()
     {
-        _colors = new List<Color>();
-        _uvs = new List<Vector2>();
+        Colors = new List<Color>();
+        UVs = new List<Vector2>();
     }
 
     ~SkinData()
@@ -19,29 +19,29 @@ public class SkinData
 
     public void Clear()
     {
-        _colors.Clear();
-        _uvs.Clear();
+        Colors.Clear();
+        UVs.Clear();
     }
 
     public void AddUV(Vector2 uv)
     {
-        _uvs.Add(uv);
+        UVs.Add(uv);
     }
 
     public void AddColor(Color color)
     {
-        _colors.Add(color);
+        Colors.Add(color);
     }
 
-    public void Add(Vector2 uv, Color color) 
+    public void Add(Vector2 uv, Color color)
     {
-        _uvs.Add(uv);
-        _colors.Add(color);
+        UVs.Add(uv);
+        Colors.Add(color);
     }
 
     public void Add(SkinData skinData)
     {
-        _colors.AddRange(skinData._colors);
-        _uvs.AddRange(skinData._uvs);
+        Colors.AddRange(skinData.Colors);
+        UVs.AddRange(skinData.UVs);
     }
 }

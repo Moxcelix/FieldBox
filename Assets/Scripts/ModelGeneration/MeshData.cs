@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 public class MeshData
 {
-    private readonly List<Vector3> _vertices;
-    private readonly List<int>[] _triangles;
-
-    private readonly int _layerCount;
+    public  int LayerCount { get; }
+    public List<Vector3> Vertices { get; }
+    public List<int>[] Triangles { get; }
 
     public MeshData(int layerCount)
     {
-        _layerCount = layerCount;
-        _vertices = new List<Vector3>();
-        _triangles = new List<int>[layerCount];
+        Vertices = new List<Vector3>();
+        Triangles = new List<int>[layerCount];
 
-        for (int i = 0; i < layerCount; i++)
+        LayerCount = layerCount;
+
+        for (int i = 0; i < Triangles.Length; i++)
         {
-            _triangles[i] = new List<int>();
+            Triangles[i] = new List<int>();
         }
     }
 
@@ -27,68 +27,68 @@ public class MeshData
 
     public void Clear() 
     {
-        _vertices.Clear();
+        Vertices.Clear();
 
-        for (int i = 0; i < _layerCount; i++)
+        for (int i = 0; i < Triangles.Length; i++)
         {
-            _triangles[i].Clear();
+            Triangles[i].Clear();
         }
     }
 
     public void AddTriangle(Vector3 a, Vector3 b, Vector3 c, int layer)
     {
-        if (layer < 0 || layer >= _layerCount)
+        if (layer < 0 || layer >= LayerCount)
         {
             throw new System.ArgumentOutOfRangeException();
         }
 
-        _vertices.Add(a);
-        _vertices.Add(b);
-        _vertices.Add(c);
+        Vertices.Add(a);
+        Vertices.Add(b);
+        Vertices.Add(c);
 
-        _triangles[layer].Add(_vertices.Count - 3);
-        _triangles[layer].Add(_vertices.Count - 2);
-        _triangles[layer].Add(_vertices.Count - 1);
+        Triangles[layer].Add(Vertices.Count - 3);
+        Triangles[layer].Add(Vertices.Count - 2);
+        Triangles[layer].Add(Vertices.Count - 1);
     }
 
     public void AddQuad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int layer)
     {
-        if (layer < 0 || layer >= _layerCount)
+        if (layer < 0 || layer >= LayerCount)
         {
             throw new System.ArgumentOutOfRangeException();
         }
 
-        _vertices.Add(a);
-        _vertices.Add(b);
-        _vertices.Add(c);
-        _vertices.Add(d);
+        Vertices.Add(a);
+        Vertices.Add(b);
+        Vertices.Add(c);
+        Vertices.Add(d);
 
-        _triangles[layer].Add(_vertices.Count - 4);
-        _triangles[layer].Add(_vertices.Count - 3);
-        _triangles[layer].Add(_vertices.Count - 2);
-        _triangles[layer].Add(_vertices.Count - 2);
-        _triangles[layer].Add(_vertices.Count - 3);
-        _triangles[layer].Add(_vertices.Count - 1);
+        Triangles[layer].Add(Vertices.Count - 4);
+        Triangles[layer].Add(Vertices.Count - 3);
+        Triangles[layer].Add(Vertices.Count - 2);
+        Triangles[layer].Add(Vertices.Count - 2);
+        Triangles[layer].Add(Vertices.Count - 3);
+        Triangles[layer].Add(Vertices.Count - 1);
     }
 
     public void Add(MeshData meshData, Vector3 shift) 
     {
-        if (meshData._layerCount > _layerCount)
+        if (meshData.LayerCount > LayerCount)
         {
             throw new System.ArgumentOutOfRangeException();
         }
 
-        for(int i = 0; i < meshData._layerCount; i++) 
+        for(int i = 0; i < meshData.LayerCount; i++) 
         {
-            for(int j = 0; j < meshData._triangles[i].Count; j++)
+            for(int j = 0; j < meshData.Triangles[i].Count; j++)
             {
-                _triangles[i].Add(_vertices.Count + meshData._triangles[i][j]);
+                Triangles[i].Add(Vertices.Count + meshData.Triangles[i][j]);
             }
         }
 
-        for(int i = 0; i < meshData._vertices.Count; i++)
+        for(int i = 0; i < meshData.Vertices.Count; i++)
         {
-            _vertices.Add(meshData._vertices[i] + shift);
+            Vertices.Add(meshData.Vertices[i] + shift);
         }
     }
 
