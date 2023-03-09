@@ -51,7 +51,7 @@ public class MeshData
         Triangles[layer].Add(Vertices.Count - 1);
     }
 
-    public void AddQuad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int layer)
+    public void AddQuad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int layer = 0)
     {
         if (layer < 0 || layer >= LayerCount)
         {

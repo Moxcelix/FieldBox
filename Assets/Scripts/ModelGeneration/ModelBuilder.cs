@@ -8,7 +8,7 @@ public class ModelBuilder : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshCollider _meshCollider;
 
-    private void Start()
+    private void Awake()
     {
         _meshCollider = GetComponent<MeshCollider>();
         _meshFilter = GetComponent<MeshFilter>();
@@ -31,6 +31,9 @@ public class ModelBuilder : MonoBehaviour
 
         colliderMesh.SetVertices(modelData.ColliderMesh.Vertices);
         colliderMesh.SetTriangles(modelData.ColliderMesh.Triangles[colliderLayer], colliderLayer);
+
+        skinMesh.RecalculateNormals();
+        colliderMesh.RecalculateNormals();
 
         _meshCollider.sharedMesh = colliderMesh;
         _meshFilter.sharedMesh = skinMesh;

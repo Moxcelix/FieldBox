@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ModelData
 {
-    private const int COLLIDER_LAYER_COUNT = 1;
-    private const int SKIN_LAYER_COUNT = 1;
+    public int ColliderLayerCount { get; } = 1;
+    public int SkinLayerCount { get; } = 1;
 
     public MeshData ColliderMesh { get; }
     public MeshData SkinMesh { get; }
@@ -12,8 +12,14 @@ public class ModelData
     public ModelData()
     {
         Skin = new SkinData();
-        SkinMesh = new MeshData(SKIN_LAYER_COUNT);
-        ColliderMesh = new MeshData(COLLIDER_LAYER_COUNT);
+        SkinMesh = new MeshData(SkinLayerCount);
+        ColliderMesh = new MeshData(ColliderLayerCount);
+    }
+
+    public ModelData(int colliderLayerCount, int skinLayerCount) : base()
+    {
+        ColliderLayerCount = colliderLayerCount;
+        SkinLayerCount = skinLayerCount;
     }
 
     ~ModelData()
@@ -35,8 +41,20 @@ public class ModelData
         Skin.Add(objectData.Skin);
     }
 
+    public void Add(MeshData colliderMesh, MeshData skinMesh, SkinData skin, Vector3 shift)
+    {
+        SkinMesh.Add(skinMesh, shift);
+        ColliderMesh.Add(colliderMesh, shift);
+        Skin.Add(skin);
+    }
+
     public void Add(ModelData objectData)
     {
         Add(objectData, Vector3.zero);
+    }
+
+    public void Add(MeshData colliderMesh, MeshData skinMesh, SkinData skin)
+    {
+        Add(colliderMesh, skinMesh, skin, Vector3.zero);
     }
 }
